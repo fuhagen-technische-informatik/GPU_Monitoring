@@ -56,7 +56,7 @@ static void init_device_info( GPU_monitor* mon, int ndevices, int *devices)
       sprintf(dev.file_name, "%s/%d_GPU_%d.log", log_path,  getpid(), dev.index);
     printf("File name %s\n", dev.file_name);
     dev.old_utilization= -1;
-    NVML_TRY(nvmlDeviceGetHandleByIndex(i, &dev.handle));
+    NVML_TRY(nvmlDeviceGetHandleByIndex(dev.index, &dev.handle));
 
     NVML_TRY(nvmlDeviceGetName(dev.handle, dev.name, sizeof(dev.name)));
     dev.log_file = fopen(dev.file_name, "w");
