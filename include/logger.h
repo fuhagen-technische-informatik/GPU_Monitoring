@@ -56,7 +56,7 @@ struct GPU_device {
 
   // In milliwatts
   unsigned power_usage;
-
+  unsigned old_utilization;
   // Maximum clock speeds, in MHz
 
 

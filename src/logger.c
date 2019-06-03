@@ -55,7 +55,7 @@ static void init_device_info( GPU_monitor* mon, int ndevices, int *devices)
     else
       sprintf(dev.file_name, "%s/%d_GPU_%d.log", log_path,  getpid(), dev.index);
     printf("File name %s\n", dev.file_name);
-
+    dev.old_utilization= -1;
     NVML_TRY(nvmlDeviceGetHandleByIndex(i, &dev.handle));
 
     NVML_TRY(nvmlDeviceGetName(dev.handle, dev.name, sizeof(dev.name)));
@@ -135,8 +135,10 @@ static inline void write_to_file(GPU_monitor *mon)
   for(i = 0; i < mon->dev_count; ++i) {
     struct GPU_device* dev = &mon->devices[i];
     double memory = (double)dev->memory.used/(double)(dev->memory.total)*100.0;
-    fprintf(dev->log_file,"%ld, %d, %f, %d, %d, %d\n",mon->last_update, dev->temperature, memory,\
+    if(dev->old_utilization != dev->util.gpu )
+      fprintf(dev->log_file,"%ld, %d, %f, %d, %d, %d\n",mon->last_update, dev->temperature, memory,\
     dev->util.gpu, dev->util.memory, dev->power_usage);
+    dev->old_utilization = dev->util.gpu;
     }
 }
 static inline void monitor_start_thread(void *arg)
@@ -163,7 +165,7 @@ pthread_create( &mon->log_thread,
 void monitor_set_updatetime(GPU_monitor* mon, unsigned milliseconds){
 
   mon->update_interval= milliseconds;
-  
+
 }
 
 
