@@ -8,8 +8,23 @@
 #include <unistd.h>
 #include <string.h>
 #include <time.h>
+#include <sys/time.h>
 #define LOG_MAX_FILE_NAME 1024
 #define GPU_LOG_FILE_PATH "."
+
+
+
+
+/**
+ * Returns the current time in microseconds.
+ */
+static inline long getMicrotime(){
+	struct timeval currentTime;
+	gettimeofday(&currentTime, NULL);
+	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+}
+
+
 const char* nvml_error_code_string(nvmlReturn_t ret);
 
 // Simple wrapper function to remove boiler plate code of checking
@@ -81,7 +96,7 @@ struct GPU_device {
   char hostname[64];
 
   // When we last updated this data
-  clock_t last_update;
+  long last_update;
 
   unsigned dev_count;
   struct GPU_device* devices;

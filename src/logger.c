@@ -70,7 +70,7 @@ static void init_device_info( GPU_monitor* mon, int ndevices, int *devices)
     mon->devices[i] = dev;
   }
 
-  mon->last_update = clock();
+  mon->last_update = getMicrotime();
 }
 
 static void update_device_info(GPU_monitor* mon)
@@ -104,7 +104,7 @@ static void update_device_info(GPU_monitor* mon)
 
   }
 
-  mon->last_update = clock();
+  mon->last_update = getMicrotime();
 }
 
 GPU_monitor* monitor_new()
