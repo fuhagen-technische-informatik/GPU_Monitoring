@@ -8,7 +8,7 @@ See pygpumon/test for python examples
 Install for python in pygpumon
 python3 setup.py install --user
 
-##Monitoring Tool
+## Monitoring Tool
 You can use the libray/module or the util_logger.py skript for continous loggin.
 
 usage:
@@ -18,7 +18,7 @@ e.g.
 
 will check for a new value each 250ms. 
 
-###Logfile
+### Logfile
 The logfile stores the data in csv format.
 Note that a new value is only stored, if the GPU utilization changes
 
