@@ -97,7 +97,7 @@ struct GPU_device {
 
   // When we last updated this data
   long last_update;
-
+  long time_zero;
   unsigned dev_count;
   struct GPU_device* devices;
   pthread_t log_thread;

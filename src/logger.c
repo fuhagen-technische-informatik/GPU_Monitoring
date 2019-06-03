@@ -68,7 +68,9 @@ static void init_device_info( GPU_monitor* mon, int ndevices, int *devices)
     get_device_features(&dev);
     fprintf(dev.log_file, "Timestep, Temperature, Memory Usage, Device Utiliziation, Memory Utiliztion, Power\n");
     mon->devices[i] = dev;
+
   }
+  mon->time_zero = getMicrotime();
 
   mon->last_update = getMicrotime();
 }
@@ -136,7 +138,7 @@ static inline void write_to_file(GPU_monitor *mon)
     struct GPU_device* dev = &mon->devices[i];
     double memory = (double)dev->memory.used/(double)(dev->memory.total)*100.0;
     if(dev->old_utilization != dev->util.gpu )
-      fprintf(dev->log_file,"%ld, %d, %f, %d, %d, %d\n",mon->last_update, dev->temperature, memory,\
+      fprintf(dev->log_file,"%ld, %d, %f, %d, %d, %d\n",mon->last_update-mon->time_zero, dev->temperature, memory,\
     dev->util.gpu, dev->util.memory, dev->power_usage);
     dev->old_utilization = dev->util.gpu;
     }
